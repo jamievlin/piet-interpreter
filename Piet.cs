@@ -387,11 +387,20 @@ namespace piet
                     break;
                 case (3, 1):
                     {
+                        var a = progStack.Pop();
+                        a = ((a % 4) + a) % 4;
+                        for (int i = 0; i < a; ++i)
+                    {
                         dp = PtrFns.clockwise(dp);
+                    }
                     }
                     break;
                 case (3, 2):
+                    {
+                        var a = progStack.Pop();
+                        if (a % 2 != 0)
                     cc = PtrFns.switchFn(cc);
+                    }
                     break;
                 case (4, 0):
                     {
@@ -401,14 +410,37 @@ namespace piet
                     break;
                 case (4, 1):
                     {
-                        var a = progStack.Peek();
-                        progStack.Push(a);
+                        var nrolls = progStack.Peek();
+                        var depth = progStack.Peek();
+
+                        var topdepth = ((nrolls % depth) + nrolls) % depth;
+                        if (depth > 1 && nrolls > 0)
+                        {
+                            Stack<int> rollbk = new();
+                            Stack<int> rest = new();
+                            for (int i=0; i<topdepth; ++i)
+                            {
+                                rollbk.Push(progStack.Pop());
+                            }
+                            for (int j = 0; j < depth - topdepth; ++j)
+                            {
+                                rest.Push(progStack.Pop());
+                            }
+
+                            while (rollbk.Count > 0)
+                            {
+                                progStack.Push(rollbk.Pop());
+                            }
+                            while (rest.Count > 0)
+                            {
+                                progStack.Push(rest.Pop());
+                            }
+                        }
                     }
                     break;
                 case (4, 2):
                     {
-                        int a;
-                        if (int.TryParse(Console.ReadLine(), out a))
+                        if (int.TryParse(Console.ReadLine(), out int a))
                         {
                             progStack.Push(a);
                         }
