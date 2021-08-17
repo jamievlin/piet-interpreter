@@ -63,32 +63,32 @@ namespace piet
     {
         protected static Tuple<int, int> ColorToHue(uint color) => color switch
         {
-            0xFFC0C0 => new Tuple<int, int>(0, 0),
-            0xFF0000 => new Tuple<int, int>(0, 1),
-            0xC00000 => new Tuple<int, int>(0, 2),
+            0xFFC0C0 => new(0, 0),
+            0xFF0000 => new(0, 1),
+            0xC00000 => new(0, 2),
                     
-            0xFFFFC0 => new Tuple<int, int>(1, 0),
-            0xFFFF00 => new Tuple<int, int>(1, 1),
-            0xC0C000 => new Tuple<int, int>(1, 2),
+            0xFFFFC0 => new(1, 0),
+            0xFFFF00 => new(1, 1),
+            0xC0C000 => new(1, 2),
                     
-            0xC0FFC0 => new Tuple<int, int>(2, 0),
-            0x00FF00 => new Tuple<int, int>(2, 1),
-            0x00C000 => new Tuple<int, int>(2, 2),
+            0xC0FFC0 => new(2, 0),
+            0x00FF00 => new(2, 1),
+            0x00C000 => new(2, 2),
                     
-            0xC0FFFF => new Tuple<int, int>(3, 0),
-            0x00FFFF => new Tuple<int, int>(3, 1),
-            0x00C0C0 => new Tuple<int, int>(3, 2),
+            0xC0FFFF => new(3, 0),
+            0x00FFFF => new(3, 1),
+            0x00C0C0 => new(3, 2),
                     
-            0xC0C0FF => new Tuple<int, int>(4, 0),
-            0x0000FF => new Tuple<int, int>(4, 1),
-            0x0000C0 => new Tuple<int, int>(4, 2),
+            0xC0C0FF => new(4, 0),
+            0x0000FF => new(4, 1),
+            0x0000C0 => new(4, 2),
                     
-            0xFFC0FF => new Tuple<int, int>(5, 0),
-            0xFF00FF => new Tuple<int, int>(5, 1),
-            0xC000C0 => new Tuple<int, int>(5, 2),
+            0xFFC0FF => new(5, 0),
+            0xFF00FF => new(5, 1),
+            0xC000C0 => new(5, 2),
 
-            0xFFFFFF => new Tuple<int, int>(-1, 0),
-            _ => new Tuple<int,int>(-1, -1)
+            0xFFFFFF => new(-1, 0),
+            _ => new(-1, -1)
         };
 
         public PixelPoint nextPixel(Direction dp, CodelChooser cc) => (dp, cc) switch
@@ -177,20 +177,20 @@ namespace piet
 
             if (result_lr.Item1)
             {
-                left = new RangeVal<int>(y);
+                left = new(y);
             }
             if (result_lr.Item2)
             {
-                right = new RangeVal<int>(y);
+                right = new(y);
             }
 
             if (result_tb.Item1)
             {
-                top = new RangeVal<int>(x);
+                top = new(x);
             }
             if (result_tb.Item2)
             {
-                bottom = new RangeVal<int>(x);
+                bottom = new(x);
             }
         }
 
@@ -212,9 +212,9 @@ namespace piet
         public PietProgram(string fileName)
         {
             image = Image.Load<Byte4>(fileName);
-            pietColorBlocks = new List<PietColorBlock>();
+            pietColorBlocks = new();
             pixelCountMap = new int[image.Width, image.Height];
-            progStack = new Stack<int>();
+            progStack = new();
         }
 
 
@@ -223,11 +223,11 @@ namespace piet
             pietColorBlocks.Clear();
             var neighbors = new HashSet<PixelPoint>();
             var greyOrBlack = new HashSet<PixelPoint>();
-            PixelPoint start = new PixelPoint(0, 0);
+            PixelPoint start = new(0, 0);
 
             while (1 == 1)
             {
-                Queue<PixelPoint> proc = new Queue<PixelPoint>();
+                Queue<PixelPoint> proc = new();
                 proc.Enqueue(start);
                 var newColBlock = new PietColorBlock(image[start.Item1, start.Item2]);
                 neighbors.Remove(start);
@@ -453,10 +453,10 @@ namespace piet
                 var ey = endBlock.Item2;
                 nextPx = dp switch
                 {
-                    Direction.Left => new PixelPoint(ex - 1, ey),
-                    Direction.Right => new PixelPoint(ex + 1, ey),
-                    Direction.Up => new PixelPoint(ex, ey - 1),
-                    Direction.Down => new PixelPoint(ex, ey + 1),
+                    Direction.Left => new(ex - 1, ey),
+                    Direction.Right => new(ex + 1, ey),
+                    Direction.Up => new(ex, ey - 1),
+                    Direction.Down => new(ex, ey + 1),
                 };
 
                 validNextCdl = blackOrEdge(nextPx);
