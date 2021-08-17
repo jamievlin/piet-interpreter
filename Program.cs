@@ -6,7 +6,7 @@ namespace piet
     {
         static void Main(string[] args)
         {
-            PietProgram pietProgram = new PietProgram("Piet_hello_big.png");
+            PietEngine pietProgram = new PietEngine("Piet_hello_big.png");
             pietProgram.constructBlocks();
             pietProgram.execute();
         }
